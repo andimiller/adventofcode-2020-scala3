@@ -9,7 +9,7 @@ import java.nio.file.{Path, Paths}
 object Helpers:
   def readFile[F[_]: Sync: ContextShift](name: String)(implicit b: Blocker): F[String] =
     fs2.io.file
-      .readAll(Path.of(s"./src/main/resources/$name"), b, 1024)
+      .readAll(Paths.get(s"./src/main/resources/$name"), b, 1024)
       .through(fs2.text.utf8Decode[F])
       .compile
       .foldMonoid
